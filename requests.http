@@ -2,14 +2,14 @@
 
 @baseUrl = http://localhost:8000/api
 
-# Выдается список всех датчиков с полной информацией
-GET {{baseUrl}}/sensors/
+# Список всех датчиков с полной информацией
+GET {{baseUrl}}/detail_list_sensors/
 Content-Type: application/json
 
 
 ###
-# создание нового датчика
-POST {{baseUrl}}/sensors/
+# Новый датчик
+POST {{baseUrl}}/sensor_create/
 Content-Type: application/json
 
 {
@@ -19,34 +19,34 @@ Content-Type: application/json
 
 
 ###
-# изменение датчика
-PATCH {{baseUrl}}/sensors/1/
+# Изменение датчика
+PATCH {{baseUrl}}/sensor_update_retrieve/2/
 Content-Type: application/json
 
 {
-  "name": "ESP01",
-  "description": "Датчик в комнате"
+  "name": "ESP02",
+  "description": "Датчик на кухне"
 }
 
 
 ###
-# добавление измерения
-POST {{baseUrl}}/measurements/
+# Добавление измерения
+POST {{baseUrl}}/measurement_create/
 Content-Type: application/json
 
 {
   "sensor": 2,
-  "temperature": 20.5
+  "temperature": 21.5
 }
 
 
 ###
-# получение полной информации по датчику
-GET {{baseUrl}}/sensors/1/
+# Полная информация по датчику
+GET {{baseUrl}}/sensor_update_retrieve/2/
 Content-Type: application/json
 
 
 ###
-# Выдается список всех датчиков с краткой информацией
-GET {{baseUrl}}/list/
+# Список всех датчиков с краткой информацией
+GET {{baseUrl}}/short_list_sensors/
 Content-Type: application/json

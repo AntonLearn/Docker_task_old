@@ -1,55 +1,43 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 
 from measurement.models import Sensor, Measurement
-from measurement.serializers import MeasurementSerializer, \
-    SensorDetailSerializer, SensorListSerializer
+from measurement.serializers import CreateMeasurementSerializer
+from measurement.serializers import SensorCreateSerializer
+from measurement.serializers import ShortListSensorsSerializer
+from measurement.serializers import SensorUpdateRetrieveSerializer
 
 
-class CreateAPIView(ListAPIView):
+class SensorCreate(ListCreateAPIView):
     """Создать датчик. Указываются название и описание датчика."""
     queryset = Sensor.objects.all()
-    serializer_class = SensorDetailSerializer
-
-    def post(self, request):
-        review = SensorDetailSerializer(data=request.data)
-        if review.is_valid():
-            review.save()
-
-        return Response({'status': 'OK'})
+    serializer_class = SensorCreateSerializer
 
 
-class ListView(ListAPIView):
+class ShortListSensors(ListCreateAPIView):
     """Получить список датчиков. Выдается список с краткой информацией по датчикам:
     ID, название и описание"""
     queryset = Sensor.objects.all()
-    serializer_class = SensorListSerializer
+    serializer_class = ShortListSensorsSerializer
 
 
-class RetrieveUpdateAPIView(RetrieveAPIView):
+class SensorUpdateRetrieve(RetrieveUpdateAPIView):
     """Получить информацию по конкретному датчику.
     ID, название, описание и список всех измерений с температурой и временем"""
     queryset = Sensor.objects.all()
-    serializer_class = SensorDetailSerializer
-
-    def patch(self, request, pk):
-        """Изменить датчик. Указываются название и/или описание."""
-        sensor = Sensor.objects.get(pk=pk)
-        serializer = SensorDetailSerializer(sensor, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-
-        return Response(serializer.data)
+    serializer_class = SensorUpdateRetrieveSerializer
 
 
-class ListCreateAPIView(ListAPIView):
+class MeasurementCreate(CreateAPIView):
     """Добавить измерение. Указываются ID датчика и температура"""
     queryset = Measurement.objects.all()
-    serializer_class = MeasurementSerializer
+    serializer_class = CreateMeasurementSerializer
 
-    def post(self, request):
-        review = MeasurementSerializer(data=request.data)
-        if review.is_valid():
-            review.save()
 
-        return Response({'status': 'OK'})
+class DetailListSensors(ListCreateAPIView):
+    """Получить список датчиков. Выдается список с полной информацией по датчикам:
+    ID, название, описание, измерения"""
+    queryset = Sensor.objects.all()
+    serializer_class = SensorUpdateRetrieveSerializer
