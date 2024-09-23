@@ -1,0 +1,10 @@
+db.sqlite3
+Dockerfile
+env
+.git
+.idea
+.gitignore
+requests.http
+*/migrations
+README.md
+my_project.sh

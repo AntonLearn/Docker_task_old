@@ -1,2 +1,7 @@
-.idea
-**/__pycache__/
+env/
+.git/
+.idea/
+/__pycache__/
+.env
+db.sqlite3
+/migrations/
